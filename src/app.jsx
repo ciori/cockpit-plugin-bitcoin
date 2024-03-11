@@ -25,24 +25,40 @@ import { Card, CardBody, CardTitle } from "@patternfly/react-core/dist/esm/compo
 const _ = cockpit.gettext;
 
 export class Application extends React.Component {
+    // constructor() {
+    //     super();
+    //     this.state = { hostname: _("Unknown") };
+
+    //     cockpit.file('/etc/hostname').watch(content => {
+    //         this.setState({ hostname: content.trim() });
+    //     });
+    // }
+
     constructor() {
         super();
-        this.state = { hostname: _("Unknown") };
+        this.state = { result: _("Unknown") };
 
-        cockpit.file('/etc/hostname').watch(content => {
-            this.setState({ hostname: content.trim() });
+        cockpit.command('ls -la ~/').execute((result) => {
+            let lines = result.stdout.split('\n');
+            this.setState({ result: lines });
         });
     }
 
     render() {
         return (
             <Card>
-                <CardTitle>Starter Kit</CardTitle>
+                <CardTitle>Bitcoin Node Information</CardTitle>
+            </Card>,
+            <Card>
+                <CardTitle>Blockchain Status</CardTitle>
                 <CardBody>
-                    <Alert
-                        variant="info"
-                        title={ cockpit.format(_("Running on $0"), this.state.hostname) }
-                    />
+                    {/* <Alert
+                        variant="warning"
+                        title="Blockchain is synchronizing..."
+                    >
+                        <p>{cockpit.format(_("Output: $0"), this.state.result)}</p>
+                    </Alert> */}
+                    {cockpit.format(_("Output: $0"), this.state.result)}
                 </CardBody>
             </Card>
         );
