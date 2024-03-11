@@ -1,8 +1,25 @@
-on: push
+name: Build and Release
+
+on:
+  - push:
+      branches:
+        - main
+  - workflow_dispatch
+
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: apt install -y make
-      - run: node --version
-      - run: npm --version
+      - name: Install make
+        run: sudo apt install -y make
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build
+        run: make
+      - name: List dist
+        run: ls -la ./dist/
