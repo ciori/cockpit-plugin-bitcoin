@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  - push
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build
+        run: make
+      - name: Create tarball package
+        run: tar czf cockpit-plugin-bitcoin.tar.gz ./dist/*
+      - name: Release the package
+        uses: actions/upload-artifact@v4
+        with:
+          name: cockpit-plugin-bitcoin
+          path: ./cockpit-plugin-bitcoin.tar.gz
