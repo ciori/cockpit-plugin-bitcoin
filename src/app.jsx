@@ -38,7 +38,7 @@ export class Application extends React.Component {
         super();
         this.state = { result: _("Unknown") };
 
-        cockpit.command('ls -la ~/').execute((result) => {
+        cockpit.command('bitcoin-cli getblockchaininfo').execute((result) => {
             let lines = result.stdout.split('\n');
             this.setState({ result: lines });
         });
@@ -52,13 +52,9 @@ export class Application extends React.Component {
             <Card>
                 <CardTitle>Blockchain Status</CardTitle>
                 <CardBody>
-                    {/* <Alert
-                        variant="warning"
-                        title="Blockchain is synchronizing..."
-                    >
+                    <Alert variant="warning" title="Blockchain Sync Output">
                         <p>{cockpit.format(_("Output: $0"), this.state.result)}</p>
-                    </Alert> */}
-                    {cockpit.format(_("Output: $0"), this.state.result)}
+                    </Alert>
                 </CardBody>
             </Card>
         );
