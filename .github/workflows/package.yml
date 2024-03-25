@@ -27,7 +27,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: cockpit-plugin-bitcoin.tar.gz
+          name: cockpit-plugin-bitcoin
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
